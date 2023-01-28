@@ -14,15 +14,15 @@ sudo apt install -y nginx
 sudo systemctl status nginx
 ```
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1674843320996/315a280a-ba69-4fd6-a2c2-f21cbfe1c401.png align="center")
+![](https://cdn.hashnode.com/res/hashnode/image/upload/v1674843320996/315a280a-ba69-4fd6-a2c2-f21cbfe1c401.png)
 
 We need to have port `80` open for our instance just like in Project 1. It's wise to have different security groups depending on what port access your technologies require. For web access, I have the `default` security group (SG) limited to just port 22 (for ssh access) and `80` for web server access. For projects requiring additional rules, I will clone the `default` SG and append the new rules.
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1674753623011/b8126038-a694-43f6-961b-7c07976ec4f3.png align="center")
+![](https://cdn.hashnode.com/res/hashnode/image/upload/v1674753623011/b8126038-a694-43f6-961b-7c07976ec4f3.png)
 
 Our server is now accessible on port `80` using our public IP Address (ex. `http://35.93.24.167` .
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1674844276826/1a404f4a-661c-4b43-bb88-13e90ff4304d.png align="center")
+![](https://cdn.hashnode.com/res/hashnode/image/upload/v1674844276826/1a404f4a-661c-4b43-bb88-13e90ff4304d.png)
 
 ## STEP 2: Setup MySQL
 
@@ -102,7 +102,7 @@ Our site is currently empty as it's bereft of any files - `*.html` or `*.php` , 
 sudo echo 'Hello LEMP from hostname' $(curl -s http://169.254.169.254/latest/meta-data/public-hostname) 'with public IP' $(curl -s http://169.254.169.254/latest/meta-data/public-ipv4) > /var/www/lemp/index.html
 ```
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1674847447899/1046aa92-5383-4b16-ac40-45b2dfd54a5e.png align="center")
+![](https://cdn.hashnode.com/res/hashnode/image/upload/v1674847447899/1046aa92-5383-4b16-ac40-45b2dfd54a5e.png)
 
 ## Step 5: Testing PHP with Nginx
 
@@ -114,7 +114,7 @@ sudo echo '<?php phpinfo();' > /var/www/lemp/info.php
 
 We should see the following PHP info page on the `http:35.93.24.167/info.php` URL:
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1674847851887/67df053a-9325-4e57-93f3-89891762986f.png align="center")
+![](https://cdn.hashnode.com/res/hashnode/image/upload/v1674847851887/67df053a-9325-4e57-93f3-89891762986f.png)
 
 ## Step 6: Retrieve Data from MySQL DB with PHP
 
@@ -122,11 +122,11 @@ For a final integration, let's create a `todolist` database, configure access to
 
 In the MySQL console, we'll create a database and an `admin` user with all privileges to the new database. This user will now be able to create a table in the database and insert data into it.
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1674853938554/756443c2-0672-44e0-a247-178e51b30fd5.png align="center")
+![](https://cdn.hashnode.com/res/hashnode/image/upload/v1674853938554/756443c2-0672-44e0-a247-178e51b30fd5.png)
 
 What's the use of a database without any data? Let's populate it with some sample todo list items:
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1674855202360/63445e94-e546-42a8-9d50-11ce6f2d2cc5.png align="center")
+![](https://cdn.hashnode.com/res/hashnode/image/upload/v1674855202360/63445e94-e546-42a8-9d50-11ce6f2d2cc5.png)
 
 ### Display Todo
 
@@ -156,7 +156,7 @@ try {
 
 Visiting `http://35.93.24.167/todo_list.php` , should display our todo list:
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1674855907625/50cbf48e-ff4f-4bbd-9501-f3b202ff3135.png align="center")
+![](https://cdn.hashnode.com/res/hashnode/image/upload/v1674855907625/50cbf48e-ff4f-4bbd-9501-f3b202ff3135.png)
 
 ## Learning Outcomes
 
