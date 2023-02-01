@@ -1,10 +1,10 @@
-# DevOps PBL: CLIENT-SERVER ARCHITECTURE USING A MYSQL RDMS
+# DevOps PBL: Client-Server Architecture Using A MySQL RDMS
 
 Client-Server refers to an architecture in which multiple computers are connected over a network to send and receive requests from one another. In their communication, each machine has its role: the machine sending requests is usually referred to as the "Client" and the machine responding (serving) is called the "Server".
 
 In this case, our Web Server has a role of a "Client" that connects and reads/writes to/from a Database (DB) Server (MySQL, MongoDB, Oracle, SQL Server or any other), and the communication between them happens over a Local Network (it can also be an Internet connection, but it is a common practice to place Web Server and DB Server close to each other in a local network).
 
-## IMPLEMENT A CLIENT/SERVER ARCHITECTURE
+## Implement A Client-Server Architecture
 
 We need to start with two Linux ec2 instances - one to act as the `client`, and the other as the `server`
 
