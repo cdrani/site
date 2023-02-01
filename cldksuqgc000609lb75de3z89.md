@@ -18,7 +18,7 @@ To integrate the above technologies let's build a book register:
 ```bash
 sudo apt update -y
 curl -fsSL https://deb.nodesource.com/setup_current.x | sudo -E bash -
-sudo apt update # might be necessary to update source index
+sudo apt update -y # might be necessary to update source index
 sudo apt install -y nodejs
 ```
 
