@@ -43,7 +43,7 @@ Make sure to select the correct instance for which to attach the volumes:
 
 ### Volume Configuration
 
-**Use** [`lsblk`](https://man7.org/linux/man-pages/man8/lsblk.8.html) **command to inspect what block devices are attached to the server. The three newly created block devices will likely have names like** `xvdf`**,** `xvdh`**, and** `xvdg` .
+Use [`lsblk`](https://man7.org/linux/man-pages/man8/lsblk.8.html) command to inspect what block devices are attached to the server. The three newly created block devices will likely have names like `xvdf`, `xvdh`, and `xvdg` .
 
 ```bash
 lsblk
@@ -55,7 +55,7 @@ We can use `df -h` to view all mounts and free space on our instance
 
 ![](https://cdn.hashnode.com/res/hashnode/image/upload/v1675400057429/82e8fadc-0856-4ba4-be74-25f62c413e1d.png align="center")
 
-**Use** `gdisk` utility to create a single partition on each of the 3 disks. The utility is interactive with some command options. We only need to make use of the `n` to create a new partition and `w` to save the new partition to the disk and exit.
+Use the `gdisk` utility to create a single partition on each of the 3 disks. The utility is interactive with some command options. We only need to make use of the `n` to create a new partition and `w` to save the new partition to the disk and exit.
 
 ```bash
 # sudo gdisk <disk>
@@ -85,14 +85,14 @@ Use [`pvcreate`](https://linux.die.net/man/8/pvcreate) utility to mark each of t
 
 ```bash
 sudo pvcreate /dev/xvdf1
-sudo pvcreate /dev/xvdf1
-sudo pvcreate /dev/xvdf1
+sudo pvcreate /dev/xvdg1
+sudo pvcreate /dev/xvdh1
 sudo pvs
 ```
 
 ![](https://cdn.hashnode.com/res/hashnode/image/upload/v1675401517236/1be10449-0dbc-4592-a12c-2b38bbd6772e.png align="center")
 
-**Use** [`vgcreate`](https://linux.die.net/man/8/vgcreate) utility to add all 3 PVs to a volume group (VG). Name the VG **webdata-vg. We can verify the creation of the VG using** `sudo vgs` :
+Use [`vgcreate`](https://linux.die.net/man/8/vgcreate) utility to add all 3 PVs to a volume group (VG). Name the VG **webdata-vg.** We can verify the creation of the VG using `sudo vgs` :
 
 ```bash
 sudo vgcreate webdata-vg /dev/xvdf1 /dev/xvdg1 /dev/xvdh1
@@ -101,7 +101,7 @@ sudo vgs
 
 ![](https://cdn.hashnode.com/res/hashnode/image/upload/v1675401622500/cca8378c-5263-4ee3-9b59-03062c9ec53f.png align="center")
 
-**Use** [`lvcreate`](https://linux.die.net/man/8/lvcreate) utility to create 2 logical volumes. **apps-lv** (***Use half of the PV size***), and **logs-lv** ***Use the remaining space of the PV size***. **NOTE**: apps-lv will be used to store data for the Website while logs-lv will be used to store data for logs.
+**Use** [`lvcreate`](https://linux.die.net/man/8/lvcreate) utility to create 2 logical volumes. **apps-lv** (***Use half of the PV size***), and **logs-lv** ***Use the remaining space of the PV size***. **NOTE**: `apps-lv` will be used to store data for the Website while `logs-lv` will be used to store data for logs.
 
 ```bash
 sudo lvcreate -n apps-lv -L 14G webdata-vg
