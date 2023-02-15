@@ -36,7 +36,7 @@ In this project you will implement a solution that consists of the following com
 
 In the diagram below you can see a common pattern where several stateless Web Servers share a common database and also access the same files using [Network File System (NFS)](https://en.wikipedia.org/wiki/Network_File_System) as shared file storage. Even though the NFS server might be located on completely separate hardware for Web Servers it will resemble a local file system from where they can serve the same files.
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1675359347436/f9f43a9c-b5fc-472c-8e10-e7fcc5a287bc.png align="center")
+![](https://cdn.hashnode.com/res/hashnode/image/upload/v1676473255925/c534a2d5-277d-4401-97f0-c1b667f7d2eb.png align="center")
 
 It is important to know what storage solution is suitable for what use cases, thus we need to ask the following questions: what data will be stored, in what format, how this data will be accessed, by whom, from where, how frequently, etc. Based on this we will be able to choose the right storage system for your solution.
 
@@ -44,7 +44,7 @@ It is important to know what storage solution is suitable for what use cases, th
 
 ### Setup LVM on RHEL 9 OS
 
-This setup will be very similar to the last project's LVM setup. To avoid extra work on my end of rewriting the same steps, I instead will embed the setup from the last project as a gist here. Notable changes we want to account for are\*\*:\*\*
+This setup will be very similar to the last project's LVM setup. To avoid extra work on my end of rewriting the same steps, I instead will embed the setup from the last project as a gist here. Notable changes we want to account for are:
 
 1. Formatting the disks as `xfs` instead of `ext4`
     
@@ -159,7 +159,7 @@ sudo systemctl restart mysqld
 
 ## Prepare the Web Servers
 
-Our Web Servers need to be able to serve the same content from shared storage solutions, in our case – NFS Server and MySQL database. We have already seen how to access a MySQL server from a client. For storing shared files that our Web Servers will use – we will utilize NFS and mount previously created Logical Volume `apps-lv` to the folder where Apache stores files to be served to the users (`/var/www`).
+Our Web Servers need to be able to serve the same content from shared storage solutions, in our case – NFS Server and MySQL database. We have already seen how to access a MySQL server from a client. For storing shared files that our Web Servers will use – we will utilize **NFS** and mount previously created Logical Volume `apps-lv` to the folder where Apache stores its files to be served to the users (`/var/www`).
 
 This approach will make our Web Servers `stateless`, which means we will be able to add new ones or remove them whenever we need, and the integrity of the data (in the database and on NFS) will be preserved.
 
@@ -221,7 +221,7 @@ sudo systemctl start php-fpm
 sudo setsebool -P httpd_execmem 1
 ```
 
-We can ascertain that our NFS is mounted properly on our web server by verifying that both `/var/www` in our Web Server(s) and `/mnt/apps` in our NFS has the same Apache files and directories. Same verification for our logs - `/var/log` for our Web Servers and \`/mnt/logs\` for our NFS
+We can ascertain that our NFS is mounted properly on our web server by verifying that both `/var/www` in our Web Server(s) and `/mnt/apps` in our NFS have the same Apache files and directories. Apply the same verification for our logs - `/var/log` for our Web Servers and `/mnt/logs` for our NFS.
 
 ![](https://cdn.hashnode.com/res/hashnode/image/upload/v1675573517765/9bb16be3-017b-462a-9115-7a97f8f271d3.png align="center")
 
