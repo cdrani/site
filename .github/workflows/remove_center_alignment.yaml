@@ -6,11 +6,12 @@ on:
       - main
     paths:
       - '**.md'
-    if: ${{ contains(github.event.head_commit.modified, '.md') && 
-      !contains(github.event.head_commit.modified, 'readme.md') }}
+    
 
 jobs:
   remove-center-alignment:
+    if: ${{ contains(github.event.head_commit.modified, '.md') && 
+      !contains(github.event.head_commit.modified, 'readme.md') }}
     runs-on: ubuntu-latest
 
     steps:
