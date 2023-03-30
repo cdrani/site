@@ -1,13 +1,13 @@
 name: Remove Center Alignment
 
 on: 
-push:
-  branches:
-    - main
-  paths:
-    - '**.md'
-  if: ${{ contains(github.event.head_commit.modified, '.md') && 
-    !contains(github.event.head_commit.modified, 'readme.md') }}
+  push:
+    branches:
+      - main
+    paths:
+      - '**.md'
+    if: ${{ contains(github.event.head_commit.modified, '.md') && 
+      !contains(github.event.head_commit.modified, 'readme.md') }}
 
 jobs:
   remove-center-alignment:
