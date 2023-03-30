@@ -5,7 +5,7 @@ seoDescription: "Write min. 2 posts per month. Does not have to be inciteful. Ca
 datePublished: Sun Jan 15 2023 21:02:28 GMT+0000 (Coordinated Universal Time)
 cuid: clcxv5mnf000008l42a8sdwfc
 slug: 2023-writing-goals
-cover: https://cdn.hashnode.com/res/hashnode/image/stock/unsplash/fVUl6kzIvLg/upload/873eeed6ea63a03c3e3752987fe808a9.jpeg
+cover: https://cdn.hashnode.com/res/hashnode/image/stock/unsplash/cckf4TsHAuw/upload/1f5321babcf051174c9d860c07ad3ff5.jpeg
 tags: writing, 2023-goals
 
 ---
