@@ -1,0 +1,29 @@
+name: Remove Center Alignment
+
+on: 
+push:
+  branches:
+    - main
+  paths:
+    - '**.md'
+  if: ${{ contains(github.event.head_commit.modified, '.md') && 
+    !contains(github.event.head_commit.modified, 'readme.md') }}
+
+jobs:
+  remove-center-alignment:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.head_commit.id }}
+
+      - name: Remove align="center" from Markdown files
+        run: |
+            sed -i 's/ align="center"//g' ${{ github.workspace }}/**/*.md
+
+      - name: Amend Commit Message
+        run: |
+          git commit --amend --no-edit
+          git push --force
