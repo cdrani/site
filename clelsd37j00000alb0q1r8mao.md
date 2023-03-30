@@ -19,11 +19,11 @@ We have three App Servers in which we have to update the timezones to **America/
 
 1. View the currently set Time Zone to determine if it needs to be updated. Update if not set to `America/Asuncion`:
     
-    ![](https://cdn.hashnode.com/res/hashnode/image/upload/v1677438386205/4597837f-2949-4d52-8f39-6abde2b8727b.png align="center")
+    ![](https://cdn.hashnode.com/res/hashnode/image/upload/v1677438386205/4597837f-2949-4d52-8f39-6abde2b8727b.png)
     
     Looks like it needs to be updated. We can do so using `timedatectl set-timezone ZONE` command. Reference `timedatectl --help` for other commands.
     
-    ![](https://cdn.hashnode.com/res/hashnode/image/upload/v1677438905527/ac98d503-146e-4911-a3c5-137296f782b5.png align="center")
+    ![](https://cdn.hashnode.com/res/hashnode/image/upload/v1677438905527/ac98d503-146e-4911-a3c5-137296f782b5.png)
     
 
 ## Learning Takeaways

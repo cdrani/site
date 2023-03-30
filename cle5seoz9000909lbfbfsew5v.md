@@ -36,7 +36,7 @@ In this project you will implement a solution that consists of the following com
 
 In the diagram below you can see a common pattern where several stateless Web Servers share a common database and also access the same files using [Network File System (NFS)](https://en.wikipedia.org/wiki/Network_File_System) as shared file storage. Even though the NFS server might be located on completely separate hardware for Web Servers it will resemble a local file system from where they can serve the same files.
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1676473255925/c534a2d5-277d-4401-97f0-c1b667f7d2eb.png align="center")
+![](https://cdn.hashnode.com/res/hashnode/image/upload/v1676473255925/c534a2d5-277d-4401-97f0-c1b667f7d2eb.png)
 
 It is important to know what storage solution is suitable for what use cases, thus we need to ask the following questions: what data will be stored, in what format, how this data will be accessed, by whom, from where, how frequently, etc. Based on this we will be able to choose the right storage system for your solution.
 
@@ -63,7 +63,7 @@ This setup will be very similar to the last project's LVM setup. To avoid extra 
 
 Here's our setup of the logical volumes:
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1675550992268/e5db7d02-6d3f-4eab-a00f-29a0d7e13beb.png align="center")
+![](https://cdn.hashnode.com/res/hashnode/image/upload/v1675550992268/e5db7d02-6d3f-4eab-a00f-29a0d7e13beb.png)
 
 Mount the logical volumes:
 
@@ -86,7 +86,7 @@ We can view our newly created mounts. We can see the **target** (`/mnt/logs`), *
 sudo findmnt | grep '/mnt'
 ```
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1675552974978/dcadf7c2-cdce-41cd-b6b7-8309102f6c9b.png align="center")
+![](https://cdn.hashnode.com/res/hashnode/image/upload/v1675552974978/dcadf7c2-cdce-41cd-b6b7-8309102f6c9b.png)
 
 Install the NFS server, configure it to start on reboot and make sure it is up and running:
 
@@ -98,7 +98,7 @@ sudo systemctl start nfs-server.service
 sudo systemctl status nfs-server.service
 ```
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1675553473643/a929709e-e388-4dcb-97cb-62f79607a596.png align="center")
+![](https://cdn.hashnode.com/res/hashnode/image/upload/v1675553473643/a929709e-e388-4dcb-97cb-62f79607a596.png)
 
 Set up permissions that will allow our Web servers to read, write and execute files on NFS.
 
@@ -116,9 +116,9 @@ Furthermore, we want our webservers (not created yet) to be able to access our m
 
 We need to retrieve out `subnet cidr` value to configure access to our NFS for our web servers. The subnet value can be found within the instance `Networking` tab and following the `subnet` link:
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1675563345708/105b518a-444c-4616-aa49-e45874b4ac9c.png align="center")
+![](https://cdn.hashnode.com/res/hashnode/image/upload/v1675563345708/105b518a-444c-4616-aa49-e45874b4ac9c.png)
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1675563442339/26c08ab8-e4a3-4cec-bbd2-a6efd210c647.png align="center")
+![](https://cdn.hashnode.com/res/hashnode/image/upload/v1675563442339/26c08ab8-e4a3-4cec-bbd2-a6efd210c647.png)
 
 ```bash
 sudo vi /etc/exports
@@ -132,15 +132,15 @@ sudo vi /etc/exports
 sudo exportfs -arv
 ```
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1675563927023/31d9dfdf-b53b-4bf2-a1f3-5e5a10b7ed7f.png align="center")
+![](https://cdn.hashnode.com/res/hashnode/image/upload/v1675563927023/31d9dfdf-b53b-4bf2-a1f3-5e5a10b7ed7f.png)
 
 Use `rcpinfo -p | grep nfs` to check the port used by NFS and include it as a rule in the Security Groups.
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1675564214367/614b3a90-4373-4773-9ed7-498d67fd8555.png align="center")
+![](https://cdn.hashnode.com/res/hashnode/image/upload/v1675564214367/614b3a90-4373-4773-9ed7-498d67fd8555.png)
 
 From the above, we need to open port `2049`. Additionally, to allow access to our NFS server from clients, we also need to open **TCP 111**, **UDP 111**, and **UDP 2049.** With all these related rules to our NFS, I created a specific SG for it. The `source` field is our `subnet cidr`.
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1675572200831/8098bc48-6640-4b80-97ed-28d9af0b2473.png align="center")
+![](https://cdn.hashnode.com/res/hashnode/image/upload/v1675572200831/8098bc48-6640-4b80-97ed-28d9af0b2473.png)
 
 ## Configure the Database Server
 
@@ -155,7 +155,7 @@ sudo systemctl enable mysqld
 sudo systemctl restart mysqld
 ```
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1675568052266/59b0f076-9a62-4c03-befc-6d1d24257869.png align="center")
+![](https://cdn.hashnode.com/res/hashnode/image/upload/v1675568052266/59b0f076-9a62-4c03-befc-6d1d24257869.png)
 
 ## Prepare the Web Servers
 
@@ -189,7 +189,7 @@ sudo mount -t nfs -o rw,nosuid 172.31.25.225:/mnt/logs /var/log/httpd
 df -h
 ```
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1675584349453/9d63b5de-4b22-451b-b57e-43a090ad5c0e.png align="center")
+![](https://cdn.hashnode.com/res/hashnode/image/upload/v1675584349453/9d63b5de-4b22-451b-b57e-43a090ad5c0e.png)
 
 Additionally, we can persist the above changes by adding them to our `/etc/fstab` :
 
@@ -223,13 +223,13 @@ sudo setsebool -P httpd_execmem 1
 
 We can ascertain that our NFS is mounted properly on our web server by verifying that both `/var/www` in our Web Server(s) and `/mnt/apps` in our NFS have the same Apache files and directories. Apply the same verification for our logs - `/var/log` for our Web Servers and `/mnt/logs` for our NFS.
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1675573517765/9bb16be3-017b-462a-9115-7a97f8f271d3.png align="center")
+![](https://cdn.hashnode.com/res/hashnode/image/upload/v1675573517765/9bb16be3-017b-462a-9115-7a97f8f271d3.png)
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1675573542541/6f3e6028-4ae1-4af5-90b7-70c8d61a940d.png align="center")
+![](https://cdn.hashnode.com/res/hashnode/image/upload/v1675573542541/6f3e6028-4ae1-4af5-90b7-70c8d61a940d.png)
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1675584251920/caeda0e3-64c0-43c8-8e60-390bc24b1f1f.png align="center")
+![](https://cdn.hashnode.com/res/hashnode/image/upload/v1675584251920/caeda0e3-64c0-43c8-8e60-390bc24b1f1f.png)
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1675584291019/7c0e9a88-bcfa-4da5-b1f6-b6f95cfa3258.png align="center")
+![](https://cdn.hashnode.com/res/hashnode/image/upload/v1675584291019/7c0e9a88-bcfa-4da5-b1f6-b6f95cfa3258.png)
 
 1. Fork the tooling source code from [Darey.io](http://Darey.io) [Github Account](https://github.com/darey-io/tooling.git) to your Github account.
     
@@ -246,13 +246,13 @@ sudo rm -R html
 
 Again our web servers should have the files in `/var/www/html`:
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1675585478662/045a0494-a2a0-465e-bc83-22f3e20cfd33.png align="center")
+![](https://cdn.hashnode.com/res/hashnode/image/upload/v1675585478662/045a0494-a2a0-465e-bc83-22f3e20cfd33.png)
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1675585510807/5945e514-303c-4aa0-879b-801a4ecc6bb1.png align="center")
+![](https://cdn.hashnode.com/res/hashnode/image/upload/v1675585510807/5945e514-303c-4aa0-879b-801a4ecc6bb1.png)
 
 We need to update permissions on `/var/www/html`
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1675586165636/6cc5da7c-77d8-4a6c-a6e4-7e323974e93c.png align="center")
+![](https://cdn.hashnode.com/res/hashnode/image/upload/v1675586165636/6cc5da7c-77d8-4a6c-a6e4-7e323974e93c.png)
 
 Update the website’s configuration to connect to the database (in `/var/www/html/functions.php` file). We will make use of the `webaccess` user with a password of `Super01!` we created earlier which has access to the \`tooling\` database:
 
@@ -260,7 +260,7 @@ Update the website’s configuration to connect to the database (in `/var/www/ht
 $db = mysqli_connect('<DB Server Private IP Address>', '<MySQL username>', '<MySQL password>', '<Database>');
 ```
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1675626157939/5a0c2c3f-027d-4082-8814-d76f2fb74199.png align="center")
+![](https://cdn.hashnode.com/res/hashnode/image/upload/v1675626157939/5a0c2c3f-027d-4082-8814-d76f2fb74199.png)
 
 Now we need to set up a users table in our tooling database. Fortunately, we already have a pre-configured `/var/www/html/tooling-db.sql` file that will create a `users` table for us. All we have to do is import it into our `tooling` database. We can import `tooling-db.sql` script to our database with this command `mysql -h <databse-private-ip> -u <db-username> -p <db-pasword> < tooling-db.sql`.
 
@@ -269,7 +269,7 @@ Now we need to set up a users table in our tooling database. Fortunately, we alr
 mysql -u webaccess -h 172.31.18.126 -p tooling < /var/www/html/tooling-db.sql
 ```
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1675625328790/17c6f884-a7e6-4239-8e1a-420d7d5d288a.png align="center")
+![](https://cdn.hashnode.com/res/hashnode/image/upload/v1675625328790/17c6f884-a7e6-4239-8e1a-420d7d5d288a.png)
 
 ```bash
 sudo sed -i 's/SELINUX=enforcing/SELINUX=disabled/' /etc/sysconfig/selinux
@@ -279,9 +279,9 @@ sudo systemctl restart httpd
 
 Visiting either of our web servers (`http://<Public IP Address>/index.php`) should display the following login page and home page upon entering our credentials:
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1675626219763/fce5b45f-b7bf-4423-9e6b-5e74f4932885.png align="center")
+![](https://cdn.hashnode.com/res/hashnode/image/upload/v1675626219763/fce5b45f-b7bf-4423-9e6b-5e74f4932885.png)
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1675630363386/98f5235d-ced3-4779-9185-8cf13b33a3fb.png align="center")
+![](https://cdn.hashnode.com/res/hashnode/image/upload/v1675630363386/98f5235d-ced3-4779-9185-8cf13b33a3fb.png)
 
 ## Learning Outcomes
 

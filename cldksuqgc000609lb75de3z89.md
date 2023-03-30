@@ -22,7 +22,7 @@ sudo apt update -y # might be necessary to update source index
 sudo apt install -y nodejs
 ```
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1675198039983/86d28b4d-55ff-4c81-93be-37bff03b4e02.png align="center")
+![](https://cdn.hashnode.com/res/hashnode/image/upload/v1675198039983/86d28b4d-55ff-4c81-93be-37bff03b4e02.png)
 
 After installing NodeJS let's create the project directory, run `npm init` in it and create the folder structure:
 
@@ -30,7 +30,7 @@ After installing NodeJS let's create the project directory, run `npm init` in it
 sudo mkdir Book; cd Book; sudo npm init -y
 ```
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1675198208177/a51073ef-9232-4a4f-9b1f-2276a9de4f0a.png align="center")
+![](https://cdn.hashnode.com/res/hashnode/image/upload/v1675198208177/a51073ef-9232-4a4f-9b1f-2276a9de4f0a.png)
 
 We should now have a `package.json` file inside of the `Book` directory. At the end of the project we should have a folder structure like this:
 
@@ -77,7 +77,7 @@ app.listen(app.get('port'), function() {
 
 Additionally, we need to include port `3300` in our EC2 instance's security group to be able to access the express server.
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1675200841698/52fcdb5e-1d33-4668-ab06-71a6b98ccfbf.png align="center")
+![](https://cdn.hashnode.com/res/hashnode/image/upload/v1675200841698/52fcdb5e-1d33-4668-ab06-71a6b98ccfbf.png)
 
 ### MongoDB Setup
 
@@ -100,7 +100,7 @@ sudo systemctl start mongod
 
 We should see the service running now:
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1675200901322/12cb313c-a126-4e3c-8840-cf5ec68a1141.png align="center")
+![](https://cdn.hashnode.com/res/hashnode/image/upload/v1675200901322/12cb313c-a126-4e3c-8840-cf5ec68a1141.png)
 
 ### Mongoose Setup
 
@@ -294,12 +294,12 @@ app.controller('myCtrl', function($scope, $http) {
 
 Our app is now complete with simple CRD (Create, Read, Delete) functionality. Start the express server with `node index.js` in the `~/Book` directory.
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1675201001607/bd7eff44-1ea5-45b9-a633-c2b0b1dbd3ef.png align="center")
+![](https://cdn.hashnode.com/res/hashnode/image/upload/v1675201001607/bd7eff44-1ea5-45b9-a633-c2b0b1dbd3ef.png)
 
 Opening the app on our public IP address on port `3300` (for ex: `http://54.213.246.86:3300`) should display the below UI:
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1675201811877/f57a6108-4977-435e-8b80-35a2682736ff.png align="center")
+![](https://cdn.hashnode.com/res/hashnode/image/upload/v1675201811877/f57a6108-4977-435e-8b80-35a2682736ff.png)
 
 The below image shows insertion of a book into the collection and a query to return all books:
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1675201767631/cdb3118b-2a34-4571-903e-eea323d27e25.png align="center")
+![](https://cdn.hashnode.com/res/hashnode/image/upload/v1675201767631/cdb3118b-2a34-4571-903e-eea323d27e25.png)

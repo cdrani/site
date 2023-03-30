@@ -17,7 +17,7 @@ In this project, we want to onboard 20 new Linux users onto a server. Create a s
     sudo ssh-keygen
     ```
     
-    ![](https://cdn.hashnode.com/res/hashnode/image/upload/v1675276274598/d2c35830-467f-4d35-834c-187feac40d42.png align="center")
+    ![](https://cdn.hashnode.com/res/hashnode/image/upload/v1675276274598/d2c35830-467f-4d35-834c-187feac40d42.png)
     
 
 ### STEP 2: Onboarding Script
@@ -108,11 +108,11 @@ sudo ./onboard_users.sh names.csv
 
 Let's test out some of the conditionals we have in place:
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1675276127609/0250f382-5c23-4fc9-810c-178b5bb01a06.png align="center")
+![](https://cdn.hashnode.com/res/hashnode/image/upload/v1675276127609/0250f382-5c23-4fc9-810c-178b5bb01a06.png)
 
 We now should have `/home/$user` (for ex. `/home/beth/`) directories for each user in the `names.csv` file:
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1675277842824/e2d663bd-cfcb-4e5b-bcb9-2ca8eb98e374.png align="center")
+![](https://cdn.hashnode.com/res/hashnode/image/upload/v1675277842824/e2d663bd-cfcb-4e5b-bcb9-2ca8eb98e374.png)
 
 Finally, we should be able to log in as any of the newly onboarded users, however, our new users don't use the same private key that we set up when launching our ec2 instance - we must use the one we generated above (`id_rsa`).
 
@@ -122,7 +122,7 @@ First, we need to ensure our key is not publicly viewable, i.e it is not writabl
 sudo chmod -w id_rsa
 ```
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1675279320610/eade7910-dea6-4a81-8b11-c4927bf92235.png align="center")
+![](https://cdn.hashnode.com/res/hashnode/image/upload/v1675279320610/eade7910-dea6-4a81-8b11-c4927bf92235.png)
 
 After the above, we can then copy the private key from our remote server (ec2) to our local environment using `scp`:
 
@@ -137,11 +137,11 @@ With that complete, from our local computer, we can log in as an onboarded user:
 ssh -i ~/.ssh/aux_id_rsa fred@38.85.56.192
 ```
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1675308445380/f6c00995-abd7-4175-9e20-1e161fdb96a8.png align="center")
+![](https://cdn.hashnode.com/res/hashnode/image/upload/v1675308445380/f6c00995-abd7-4175-9e20-1e161fdb96a8.png)
 
 Only users with the auth key can log in:
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1675309204647/3544ed25-64df-4bf1-81c7-cc2dfe122e70.png align="center")
+![](https://cdn.hashnode.com/res/hashnode/image/upload/v1675309204647/3544ed25-64df-4bf1-81c7-cc2dfe122e70.png)
 
 Note: One can log in using the `*.pem` key for the ec2 instance as well.
 

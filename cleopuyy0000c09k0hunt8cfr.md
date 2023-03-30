@@ -95,7 +95,7 @@
     brew install gnu-sed
     ```
     
-    ![](https://cdn.hashnode.com/res/hashnode/image/upload/v1677615452777/31c1cb44-bfdc-4e92-ac8e-408f14b3813a.png align="center")
+    ![](https://cdn.hashnode.com/res/hashnode/image/upload/v1677615452777/31c1cb44-bfdc-4e92-ac8e-408f14b3813a.png)
     
     I will replace my default **sed** with **gsed** with the approach above. In my `.zshrc` file I can add the above **PATH** variable and then source the file:
     

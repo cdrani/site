@@ -30,7 +30,7 @@ Completing the above for the `client` is unnecessary since the client will just 
 
 By default, both of your EC2 virtual servers are located in the same local virtual network, so they can communicate with each other using local IP addresses. MySQL server uses TCP port 3306 by default, so you will have to open it by creating a new entry in ‘Inbound rules’ in ‘MySQL server’ Security Groups. For extra security, do not allow all IP addresses to reach your ‘MySQL server’ – allow access only to the specific local IP address of the ‘MySQL client’.
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1675152881755/f270a5f1-6c58-4b2a-8573-36ec107ca8ed.png align="center")
+![](https://cdn.hashnode.com/res/hashnode/image/upload/v1675152881755/f270a5f1-6c58-4b2a-8573-36ec107ca8ed.png)
 
 You might need to configure the MySQL server to allow connections from remote hosts.
 
@@ -49,7 +49,7 @@ sudo systemctl restart mysql
 
 Let's create an `admin` user and `test_db` database from our `server` instance:
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1675154862151/4a81fbcd-7668-4b89-9f50-752af0215771.png align="center")
+![](https://cdn.hashnode.com/res/hashnode/image/upload/v1675154862151/4a81fbcd-7668-4b89-9f50-752af0215771.png)
 
 With the above setup, we can now connect to our MySQL `server` from our `client` using the above `admin` user. The `-h` option allows us to specify the IP or hostname of the MySQL server
 
@@ -60,6 +60,6 @@ mysql -u admin -p -h 172.31.30.207
 
 We have now accessed the server as the client. Let's create a contacts table and populate it:
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1675156057946/e7f60893-ecb8-4637-b903-264f795e1b6e.png align="center")
+![](https://cdn.hashnode.com/res/hashnode/image/upload/v1675156057946/e7f60893-ecb8-4637-b903-264f795e1b6e.png)
 
 We should also be able to view that table and its row from the server instance and add additional rows to it.

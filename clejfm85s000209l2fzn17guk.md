@@ -8,20 +8,20 @@
 
 ### Information
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1677294685541/587837be-e9f9-4f69-a1b1-f91dcd6bd99e.png align="center")
+![](https://cdn.hashnode.com/res/hashnode/image/upload/v1677294685541/587837be-e9f9-4f69-a1b1-f91dcd6bd99e.png)
 
 ## Implementation
 
 1. ssh into `App Server 2` using as `steve` : `ssh steve@172.16.238.11` . Enter password when prompted. Currently only users `steve` and `ansible` exist in this server
     
-    ![](https://cdn.hashnode.com/res/hashnode/image/upload/v1677295895067/997a5cc1-531c-46f0-9d32-adf2222c6c46.png align="center")
+    ![](https://cdn.hashnode.com/res/hashnode/image/upload/v1677295895067/997a5cc1-531c-46f0-9d32-adf2222c6c46.png)
     
 2. Create user `javed` with non-interactive shell: `sudo adduser -s /sbin/nologin javed` . `-s` is a flag to set the shell for a user. Below I authenticate as `root` so the `sudo` prefixes are unnecessary.
     
 
 > **<mark>nologin</mark>** displays a message that an account is not available and closes the connection and returns non-zero. It is intended as a replacement shell field to deny login access to an account.
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1677296174159/d4507bc4-38f7-421d-a7b3-d8e8800a460b.png align="center")
+![](https://cdn.hashnode.com/res/hashnode/image/upload/v1677296174159/d4507bc4-38f7-421d-a7b3-d8e8800a460b.png)
 
 ## Learnings
 
