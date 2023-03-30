@@ -4,14 +4,15 @@ on:
   push:
     branches:
       - main
+    paths-ignore:
+      - README.md
+      - readme.md
+      - '**/**'
     paths:
-      - '**.md'
+      - '*.md'
     
-
 jobs:
   remove-center-alignment:
-    if: ${{ contains(github.event.head_commit.modified, '.md') && 
-      !contains(github.event.head_commit.modified, 'readme.md') }}
     runs-on: ubuntu-latest
 
     steps:
@@ -20,9 +21,10 @@ jobs:
         with:
           ref: ${{ github.event.head_commit.id }}
 
-      - name: Remove align="center" from Markdown files
+      - name: Remove align="center" from Markdown file
         run: |
-            sed -i 's/ align="center"//g' ${{ github.workspace }}/**/*.md
+          MODIFIED_FILE=${{ github.event.head_commit.modified }}
+          sed -i 's/ align="center"//g' "$MODIFIED_FILE"
 
       - name: Amend Commit Message
         run: |
