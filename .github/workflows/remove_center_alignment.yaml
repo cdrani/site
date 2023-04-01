@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     
     permissions:
-      contents: write
+      contents: all
 
     steps:
     - name: Checkout repository
