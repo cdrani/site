@@ -30,6 +30,8 @@ jobs:
       run: |
         echo "Removing align center from committed Markdown file..."
         sed -i 's/ align="center"//g' "${{ env.COMMITTED_FILE }}"
+        cat "${{ env.COMMITTED_FILE }}"
+        git diff "${{ env.COMMITTED_FILE }}"
         
     - name: Configure Git user
       run: |
@@ -42,8 +44,10 @@ jobs:
         echo "Amending commit..."
         echo "Changes in working tree:"
         git diff-index HEAD
+        git diff "${{ env.COMMITTED_FILE }}"
         git add "${{ env.COMMITTED_FILE }}"
-        git commit -m '[automated] remove center alignment'
+        grep 'align="center"' "${{ env.COMMITTED_FILE }}"
+        git commit -m '[automated] remove center alignment in ${{ env.COMMITTED_FILE }}'
 
     - name: Push changes
       run: |
