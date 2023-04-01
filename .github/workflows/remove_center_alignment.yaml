@@ -22,12 +22,18 @@ jobs:
       id: latest_commit
       run: |
         echo "Getting latest commit file..."
-        sha=${{ github.event.after }}
-        echo "$(git log -n 1 --name-only --pretty=format:'' $sha | cat)"
-        COMMITTED_FILE="$(git log -n 1 --name-only --pretty=format:'' $sha | tail -n1)"
-        echo "$sha"
-        echo "$COMMITTED_FILE"
-        echo "COMMITTED_FILE=$COMMITTED_FILE" >> $GITHUB_ENV
+        asha=${{ github.event.after }}
+        bsha=${{ github.event.before }}
+        # echo "$(git log -n 1 --name-only --pretty=format:'' $sha | cat)"
+        
+        echo "BEFORE:: $(git log -n 1 --name-only -U0 --pretty=format:'' $asha)"
+        echo "CURRENT:: $(git log -n 1 --name-only -U0 --pretty=format:'' ${{ github.sha }})"
+        echo "AFTER:: $(git log -n 1 --name-only -U0 --pretty=format:'' $asha)"
+
+        # COMMITTED_FILE="$(git log -n 1 --name-only --pretty=format:'' $sha | tail -n1)"
+        # echo "$sha"
+        # echo "$COMMITTED_FILE"
+        # echo "COMMITTED_FILE=$COMMITTED_FILE" >> $GITHUB_ENV
         
 #     - name: Remove align center from committed Markdown file
 #       run: |
