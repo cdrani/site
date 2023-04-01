@@ -8,7 +8,7 @@ tags: lamp, devops, devops-journey, pbl
 
 ---
 
-LAMP (Linux Apache MySQL PHP, Perl, or Python) is a web stack with the following open-source technology:
+LAMP (Linux Apache MySQL PHP, Perl, or Python) is a web stack with the following open-source technologies:
 
 Linux - Operating System
 
