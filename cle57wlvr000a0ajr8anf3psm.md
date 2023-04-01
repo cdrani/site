@@ -1,5 +1,5 @@
 ---
-title: "DevOps PBL: Apache Load Balancer"
+title: "Apache Load Balancer"
 datePublished: Mon Feb 06 2023 05:12:50 GMT+0000 (Coordinated Universal Time)
 cuid: cle57wlvr000a0ajr8anf3psm
 slug: apache-load-balancer
