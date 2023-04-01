@@ -29,28 +29,19 @@ jobs:
     - name: Remove align center from committed Markdown file
       run: |
         echo "Removing align center from committed Markdown file..."
-        echo "file: ${{ env.COMMITTED_FILE }}"
-        ls -l "${{ env.COMMITTED_FILE }}"
-        file "${{ env.COMMITTED_FILE }}"
         sed -i 's/ align="center"//g' "${{ env.COMMITTED_FILE }}"
 
-    - name: Configure Git user
-      run: |
-        echo "Configuring Git user..."
-        git config --global user.email "github-action-bot@example.com"
-        git config --global user.name "GitHub Action Bot"
-
-    - name: Amend commit
+    - name: Commit changes
       run: |
         echo "Amending commit..."
         echo "Changes in working tree:"
         git diff-index HEAD
         git add "${{ env.COMMITTED_FILE }}"
-        git commit --amend --no-edit
+        git commit -m '[automated] remove center alignment'
 
-    - name: Force push changes
+    - name: Push changes
       run: |
         echo "Pushing changes..."
-        git push --force-with-lease
+        git push
 
 
