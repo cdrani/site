@@ -23,6 +23,7 @@ jobs:
         echo "Current repository state:"
         git status
         git log -n 1 --pretty=format:"%h %s"  
+        git show --pretty="" --name-only
       
     - name: Get latest commit file
       id: latest_commit
