@@ -1,5 +1,5 @@
 ---
-title: "DevOps PBL: LAMP Stack"
+title: "LAMP Stack"
 datePublished: Thu Jan 26 2023 20:20:09 GMT+0000 (Coordinated Universal Time)
 cuid: clddjhkzi00020albdbh9h6wq
 slug: lamp-stack
