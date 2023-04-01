@@ -10,13 +10,13 @@ tags: lamp, devops, devops-journey, pbl
 
 LAMP (Linux Apache MySQL PHP, Perl, or Python) is a web stack with the following open-source technologies:
 
-Linux - Operating System
+Linux: Operating System
 
-Apache - Web Server
+Apache: Web Server
 
-MariaDB, MySQL - Relational Database Management System
+MariaDB or MySQL: Relational Database Management System
 
-PHP, Python, Perl - Programming Language. Commonly PHP as 80% of the web is written in it.
+PHP, Python, or Perl: Programming Language. Commonly PHP as 80% of the web is written in it.
 
 **Prerequisite**: Access to Linux Ubuntu through Vagrant, VirtualBox, UTM, etc, or spinning up a cloud instance on a service like AWS EC2. This project makes use of the ubuntu LTS version (Jammy Jellifyfish 22.04) on the free tier AWS provides.
 
