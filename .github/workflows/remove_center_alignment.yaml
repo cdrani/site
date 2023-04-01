@@ -17,23 +17,39 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
-
+      
+    - name: Print repository state
+      run: |
+        echo "Current repository state:"
+        git status
+        git log -n 1 --pretty=format:"%h %s"  
+      
     - name: Get latest commit file
       id: latest_commit
       run: |
         echo "Getting latest commit file..."
         asha=${{ github.event.after }}
         bsha=${{ github.event.before }}
-        # echo "$(git log -n 1 --name-only --pretty=format:'' $sha | cat)"
-        
-        echo "BEFORE:: $(git log -n 1 --name-only -U0 --pretty=format:'' $asha)"
-        echo "CURRENT:: $(git log -n 1 --name-only -U0 --pretty=format:'' ${{ github.sha }})"
+        echo "BEFORE:: $(git diff --name-only $bsha $asha)"
+        echo "CURRENT:: $(git diff --name-only $bsha ${{ github.sha }})"
         echo "AFTER:: $(git log -n 1 --name-only -U0 --pretty=format:'' $asha)"
 
-        # COMMITTED_FILE="$(git log -n 1 --name-only --pretty=format:'' $sha | tail -n1)"
-        # echo "$sha"
-        # echo "$COMMITTED_FILE"
-        # echo "COMMITTED_FILE=$COMMITTED_FILE" >> $GITHUB_ENV
+#     - name: Get latest commit file
+#       id: latest_commit
+#       run: |
+#         echo "Getting latest commit file..."
+#         asha=${{ github.event.after }}
+#         bsha=${{ github.event.before }}
+#         # echo "$(git log -n 1 --name-only --pretty=format:'' $sha | cat)"
+        
+#         echo "BEFORE:: $(git log -n 1 --name-only -U0 --pretty=format:'' $asha)"
+#         echo "CURRENT:: $(git log -n 1 --name-only -U0 --pretty=format:'' ${{ github.sha }})"
+#         echo "AFTER:: $(git log -n 1 --name-only -U0 --pretty=format:'' $asha)"
+
+#         # COMMITTED_FILE="$(git log -n 1 --name-only --pretty=format:'' $sha | tail -n1)"
+#         # echo "$sha"
+#         # echo "$COMMITTED_FILE"
+#         # echo "COMMITTED_FILE=$COMMITTED_FILE" >> $GITHUB_ENV
         
 #     - name: Remove align center from committed Markdown file
 #       run: |
