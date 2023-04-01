@@ -1,0 +1,56 @@
+name: Remove align center
+
+on:
+  push:
+    paths:
+      - '**.md'
+      - '!README.md'
+      - '!readme.md'
+
+jobs:
+  remove-align-center:
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: write
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Get latest commit file
+      id: latest_commit
+      run: |
+        echo "Getting latest commit file..."
+        echo "$(git log -1 --name-only --pretty=format:'' | tail -n1)"
+        COMMITTED_FILE="$(git log -1 --name-only --pretty=format:'' | tail -n1)"
+        echo "COMMITTED_FILE=$COMMITTED_FILE" >> $GITHUB_ENV
+        
+    - name: Remove align center from committed Markdown file
+      run: |
+        echo "Removing align center from committed Markdown file..."
+        echo "file: ${{ env.COMMITTED_FILE }}"
+        ls -l "${{ env.COMMITTED_FILE }}"
+        file "${{ env.COMMITTED_FILE }}"
+        sed -i 's/ align="center"//g' "${{ env.COMMITTED_FILE }}"
+
+    - name: Configure Git user
+      run: |
+        echo "Configuring Git user..."
+        git config --global user.email "github-action-bot@example.com"
+        git config --global user.name "GitHub Action Bot"
+
+    - name: Amend commit
+      run: |
+        echo "Amending commit..."
+        echo "Changes in working tree:"
+        git diff-index HEAD
+        git add "${{ env.COMMITTED_FILE }}"
+        git commit --amend --no-edit
+
+    - name: Force push changes
+      run: |
+        echo "Pushing changes..."
+        git push --force-with-lease
+
+
