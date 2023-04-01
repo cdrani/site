@@ -1,8 +1,8 @@
 ---
-title: "DevOps PBL: MEAN Stack"
+title: "MEAN Stack"
 datePublished: Tue Jan 31 2023 22:16:43 GMT+0000 (Coordinated Universal Time)
 cuid: cldksuqgc000609lb75de3z89
-slug: devops-pbl-mean-stack
+slug: mean-stack
 cover: https://cdn.hashnode.com/res/hashnode/image/upload/v1675310202887/a9d5d800-7c14-47a0-8b18-0ee0a06094d0.jpeg
 tags: mean, devops-journey, pbl
 
