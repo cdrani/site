@@ -30,6 +30,12 @@ jobs:
       run: |
         echo "Removing align center from committed Markdown file..."
         sed -i 's/ align="center"//g' "${{ env.COMMITTED_FILE }}"
+        
+    - name: Configure Git user
+      run: |
+        echo "Configuring Git user..."
+        git config --global user.email "noreply@github.com"
+        git config --global user.name "cdrani"
 
     - name: Commit changes
       run: |
