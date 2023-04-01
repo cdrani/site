@@ -1,5 +1,5 @@
 ---
-title: "DevOps PBL: WordPress Web Solution"
+title: "WordPress Web Solution"
 datePublished: Fri Feb 03 2023 08:37:38 GMT+0000 (Coordinated Universal Time)
 cuid: cldo9wxz700060aid37hieybo
 slug: wordpress-web-solution
