@@ -22,8 +22,8 @@ jobs:
       id: latest_commit
       run: |
         echo "Getting latest commit file..."
-        echo "$(git log -1 --name-status --pretty=format:'' | awk '/^M/ { print $2 }' | head -1)"
-        COMMITTED_FILE="$(git log -1 --name-status --pretty=format:'' | awk '/^M/ { print $2 }' | head -1)"
+        echo "$(git log -1 --pretty=format:%H --name-only | tail -n+2 | xargs -I {} sh -c 'if [ -f "{}" ]; then echo "{}"; exit; fi'))"
+        COMMITTED_FILE="$(git log -1 --pretty=format:%H --name-only | tail -n+2 | xargs -I {} sh -c 'if [ -f "{}" ]; then echo "{}"; exit; fi')"
         echo "COMMITTED_FILE=$COMMITTED_FILE" >> $GITHUB_ENV
         
     - name: Remove align center from committed Markdown file
