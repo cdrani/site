@@ -22,8 +22,8 @@ jobs:
       id: latest_commit
       run: |
         echo "Getting latest commit file..."
-        git log -n 1 --name-only --pretty=format:''
-        COMMITTED_FILE="$(git log -n 1 --name-only --pretty=format:'')"
+        echo "$(git log -n 1 --name-only --pretty=format:'' ${{ github.sha }})"
+        COMMITTED_FILE="$(git log -n 1 --name-only --pretty=format:'' ${{ github.sha }})"
         cat "$COMMITTED_FILE"
         echo "COMMITTED_FILE=$COMMITTED_FILE" >> $GITHUB_ENV
         
