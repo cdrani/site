@@ -1,5 +1,5 @@
 ---
-title: "DevOps PBL: Client-Server Architecture With MySQL"
+title: "Client-Server Architecture With MySQL"
 datePublished: Tue Jan 31 2023 22:18:53 GMT+0000 (Coordinated Universal Time)
 cuid: cldksxjf2000309mjevijfrzy
 slug: client-server-architecture-using-a-mysql-rdms
