@@ -22,35 +22,36 @@ jobs:
       id: latest_commit
       run: |
         echo "Getting latest commit file..."
-        echo "$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }} | head -1)"
-        COMMITTED_FILE="$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }} | head -1)"
+        git log -n 1 --name-only --pretty=format:''
+        COMMITTED_FILE="$(git log -n 1 --name-only --pretty=format:'')"
+        cat "$COMMITTED_FILE"
         echo "COMMITTED_FILE=$COMMITTED_FILE" >> $GITHUB_ENV
         
-    - name: Remove align center from committed Markdown file
-      run: |
-        echo "Removing align center from committed Markdown file..."
-        sed -i 's/ align="center"//g' "${{ env.COMMITTED_FILE }}"
-        cat "${{ env.COMMITTED_FILE }}"
-        git diff "${{ env.COMMITTED_FILE }}"
+#     - name: Remove align center from committed Markdown file
+#       run: |
+#         echo "Removing align center from committed Markdown file..."
+#         sed -i 's/ align="center"//g' "${{ env.COMMITTED_FILE }}"
+#         cat "${{ env.COMMITTED_FILE }}"
+#         git diff "${{ env.COMMITTED_FILE }}"
         
-    - name: Configure Git user
-      run: |
-        echo "Configuring Git user..."
-        git config --global user.email "noreply@github.com"
-        git config --global user.name "cdrani"
+#     - name: Configure Git user
+#       run: |
+#         echo "Configuring Git user..."
+#         git config --global user.email "noreply@github.com"
+#         git config --global user.name "cdrani"
 
-    - name: Commit changes
-      run: |
-        echo "Amending commit..."
-        echo "Changes in working tree:"
-        git diff "${{ env.COMMITTED_FILE }}"
-        git add "${{ env.COMMITTED_FILE }}"
-        grep 'align="center"' "${{ env.COMMITTED_FILE }}"
-        git commit -m '[automated] remove center alignment in ${{ env.COMMITTED_FILE }}'
+#     - name: Commit changes
+#       run: |
+#         echo "Amending commit..."
+#         echo "Changes in working tree:"
+#         git diff "${{ env.COMMITTED_FILE }}"
+#         git add "${{ env.COMMITTED_FILE }}"
+#         grep 'align="center"' "${{ env.COMMITTED_FILE }}"
+#         git commit -m '[automated] remove center alignment in ${{ env.COMMITTED_FILE }}'
 
-    - name: Push changes
-      run: |
-        echo "Pushing changes..."
-        git push
+#     - name: Push changes
+#       run: |
+#         echo "Pushing changes..."
+#         git push
 
 
