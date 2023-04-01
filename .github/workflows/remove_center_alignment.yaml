@@ -22,8 +22,8 @@ jobs:
       id: latest_commit
       run: |
         echo "Getting latest commit file..."
-        echo "$(git diff-tree --no-commit-id --name-only -r HEAD~1 | head -1)"
-        COMMITTED_FILE="$(git diff-tree --no-commit-id --name-only -r HEAD~1 | head -1)"
+        echo $(git diff-tree --no-commit-id --name-only -r ${{ github.sha }} | head -1)"
+        COMMITTED_FILE="$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }} | head -1)"
         echo "COMMITTED_FILE=$COMMITTED_FILE" >> $GITHUB_ENV
         
     - name: Remove align center from committed Markdown file
