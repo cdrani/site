@@ -20,110 +20,102 @@ By "Fresh", I mean just having Docker Desktop and a Text Editor - No Rails neces
     
     `docker -v`
     
-
-```bash
-docker -v
-# Docker version 23.0.5, build bc4487a
-```
-
-1. Set up a docker container with a ruby image in which to create the rails app.
+    ```bash
+    docker -v
+    # Docker version 23.0.5, build bc4487a
+    ```
     
-
-```bash
-docker run --rm -it -v "$PWD":/usr/src/app -w /usr/src/app ruby:3.2.2-bullseye bash -c "gem install rails && rails new . -d postgresql -T"
-```
-
-This command runs a Docker container using the `ruby:3.2.2-bullseye` image, with several options:
-
-* `docker run`: Run a Docker container.
+2. Set up a docker container with a ruby image in which to create the rails app.
     
-* `--rm`: Automatically remove the container when it exits.
+    ```bash
+    docker run --rm -it -v "$PWD":/usr/src/app -w /usr/src/app ruby:3.2.2-bullseye bash -c "gem install rails && rails new . -d postgresql -T"
+    ```
     
-* `-it`: Allocate a tty for interactive input and output.
+    This command runs a Docker container using the `ruby:3.2.2-bullseye` image, with several options:
     
-* `-v "$PWD":/usr/src/app`: Mount the current directory as a volume inside the container at the path `/usr/src/app`.
+    `docker run`: Run a Docker container.
     
-* `-w /usr/src/app`: Set the working directory inside the container to `/usr/src/app`.
+    `--rm`: Automatically remove the container when it exits.
     
-* `ruby:3.2.2-bullseye`: Use the `ruby:3.2.2-bullseye` image as the base image for the container.
+    `-it`: Allocate a tty for interactive input and output.
     
-* `/bin/bash`: Start an interactive shell inside the container.
+    `-v "$PWD":/usr/src/app`: Mount the current directory as a volume inside the container at the path `/usr/src/app`.
     
-* `-c "gem install rails && rails new . -d postgresql -T"`:
+    `-w /usr/src/app`: Set the working directory inside the container to `/usr/src/app`.
     
-    Execute a shell command inside the container that installs Rails using `gem install` and then runs the `rails new` command within the current directory with the specified options - setting the database to PostgreSQL and optionally skipping tests setup.
+    `ruby:3.2.2-bullseye`: Use the `ruby:3.2.2-bullseye` image as the base image for the container.
     
-
-1. We should now have a rails app generated on our machine. Now we want it dockerized, so we can run all the processes like the server, console, migrations, etc within containers. Let's start with the server and for that create a `Dockerfile` (also written as `dockerfile` - which is my preference).
+    `/bin/bash`: Start an interactive shell inside the container.
     
-
-```yaml
-FROM ruby:3.2.2-bullseye
-
-# Set the working directory inside the container
-WORKDIR /app
-
-# Update Dependencies
-RUN apt-get update && \
-    apt-get clean 
-
-# Copy the Gemfile and Gemfile.lock from the host into the container
-COPY Gemfile Gemfile.lock ./
-
-# Install the RubyGems
-RUN gem install bundler:2.4.13 && \
-    bundle config --global frozen 1 && \
-    bundle install --jobs 4 --retry 3
-
-# Copy the rest of the application into the container
-COPY . .
-
-# Expose port 3000
-EXPOSE 3000
-
-# Start the Rails server
-CMD ["rails", "server", "-b", "0.0.0.0"]
-```
-
-1. Now we need a container with a PostgreSQL image and connect it with the rails app on the same network. The easy approach is with utilizing a `docker-compose.yaml` (or `compose.yaml` - again preference) file.
+    `-c "gem install rails && rails new . -d postgresql -T"`: Execute a shell command inside the container that installs Rails using `gem install` and then runs the `rails new` command within the current directory with the specified options - setting the database to PostgreSQL and optionally skipping tests setup.
     
-
-```yaml
-version: '3.9'
-services:
-  db:
-    container_name: db
-    image: postgres:14-alpine
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: attic_development
+3. We should now have a Rails app generated on our machine. Next, we want to dockerize it so that we can run all processes, such as the server, console, migrations, and more within containers. Let's begin with the server; to do this, create a Dockerfile (also written as dockerfile, which is my preference).
+    
+    ```yaml
+    FROM ruby:3.2.2-bullseye
+    
+    # Set the working directory inside the container
+    WORKDIR /app
+    
+    # Update Dependencies
+    RUN apt-get update && \
+        apt-get clean 
+    
+    # Copy the Gemfile and Gemfile.lock from the host into the container
+    COPY Gemfile Gemfile.lock ./
+    
+    # Install the RubyGems
+    RUN gem install bundler:2.4.13 && \
+        bundle config --global frozen 1 && \
+        bundle install --jobs 4 --retry 3
+    
+    # Copy the rest of the application into the container
+    COPY . .
+    
+    # Expose port 3000
+    EXPOSE 3000
+    
+    # Start the Rails server
+    CMD ["rails", "server", "-b", "0.0.0.0"]
+    ```
+    
+4. Now, we need a container that includes a PostgreSQL image and connects it to the Rails app on the same network. An easy approach is to use a docker-compose.yaml file (or compose.yaml, depending on your preference).
+    
+    ```yaml
+    services:
+      db:
+        container_name: db
+        image: postgres:14-alpine
+        environment:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: attic_development
+        volumes:
+          - db_date:/var/lib/postgresql/data
+    
+      web:
+        container_name: web
+        build: .
+        ports:
+          - "3000:3000"
+        depends_on:
+          - db
+        environment:
+          DATABASE_URL: postgresql://postgres:postgres@db/attic_development
+        volumes:
+          - .:/app
+          - gem_cache:/usr/local/bundle/gems
+    
     volumes:
-      - db_date:/var/lib/postgresql/data
-
-  web:
-    container_name: web
-    build: .
-    ports:
-      - "3000:3000"
-    depends_on:
-      - db
-    environment:
-      DATABASE_URL: postgresql://postgres:postgres@db/attic_development
-    volumes:
-      - .:/app
-      - gem_cache:/usr/local/bundle/gems
-
-volumes:
-  gem_cache:
-  db_data:
-```
-
-The `compose.yaml` file is used to define a multi-container Docker application. It consists of a version number (in this case, version 3), and a list of services that make up the application.
-
-The `services` section of the file contains two services:
-
-* `db`: This service is defined using the official PostgreSQL Docker image tagged `14-alpine`. It sets three environment variables:
+      gem_cache:
+      db_data:
+    ```
+    
+    The `compose.yaml` file is used to define a multi-container Docker application. It consists of a version number (in this case, version 3), and a list of services that make up the application.
+    
+    The `services` section of the file contains two services:
+    
+    `db`: This service is defined using the official PostgreSQL Docker image tagged `14-alpine`. It sets three environment variables:
     
     * `POSTGRES_USER`: The username for the default PostgreSQL user.
         
@@ -131,46 +123,46 @@ The `services` section of the file contains two services:
         
     * `POSTGRES_DB`: The name of the default database to be created.
         
-* `web`: This service is defined to **build** a Docker image from the `dockerfile` in the current directory (`.`). It maps **port** `3000` of the host to port `3000` of the container. It depends on the `db` service, which means that the `db` service will be started before the `web` service. It also sets the `DATABASE_URL` environment variable to connect the Rails app to the PostgreSQL database. The `depends_on` section specifies that the `db` service should be started before the `web` service. The `environment` section sets the `DATABASE_URL` environment variable to the URL of the PostgreSQL database. The format of the URL is `postgresql://<username>:<password>@<hostname>/<database>`. In this case, the username is `postgres`, the password is `postgres`, the hostname is `db` (the name of the `db` service), and the database name is `attic_development`.
     
-
-1. Now we can run both services together:
+    `web`: This service is defined to **build** a Docker image from the `dockerfile` in the current directory (`.`). It maps **port** `3000` of the host to port `3000` of the container. It depends on the `db` service, which means that the `db` service will be started before the `web` service. It also sets the `DATABASE_URL` environment variable to connect the Rails app to the PostgreSQL database. The `depends_on` section specifies that the `db` service should be started before the `web` service. The `environment` section sets the `DATABASE_URL` environment variable to the URL of the PostgreSQL database. The format of the URL is `postgresql://<username>:<password>@<hostname>/<database>`. In this case, the username is `postgres`, the password is `postgres`, the hostname is `db` (the name of the `db` service), and the database name is `attic_development`.
     
-
-```yaml
-docker compose up -d
-```
-
-The `-d` is for a detached mode, i.e. running in the background. In most cases this is the ideal mode as without the flag our terminal will stream the rails server logs, requiring us to either open a new terminal tab to run other commands for migrations, interact with the console, etc.
-
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1683790081061/f4ad0553-6a71-4a59-866e-9ddb95d7e701.png align="center")
-
-### Common Commands:
-
-Running various Rails commands within the web container:
-
-```bash
-docker compose run web rails c
-docker compose run web rails g model|controller|migration ...
-docker compose run web rails db:migrate
-docker compose run web rails t
-docker compose run web bundle exec rspec
-docker compose run web bundle add|install|update|remove [gem]
-```
-
-The above `docker compose run web rails` should be saved into an alias such as:
-
-```bash
-alias dcr="docker compose run web rails"
-alias dcb="docker compuse bundle"
-alias dcbr="docker compose bundle exec rspec"
-```
-
-View `rails s` logs:
-
-```bash
-docker logs -f web
-```
+5. Now we can run both services together:
+    
+    ```bash
+    docker compose up -d
+    ```
+    
+    The "-d" option is for detached mode, which means running in the background. In most cases, this is the ideal mode, as without this flag, our terminal will stream the Rails server logs. This would require us to open a new terminal tab to run other commands for migrations, interact with the console, and so on.
+    
+    ![](https://cdn.hashnode.com/res/hashnode/image/upload/v1683790081061/f4ad0553-6a71-4a59-866e-9ddb95d7e701.png align="left")
+    
+    ### Common Commands:
+    
+    Running various Rails commands within the web container:
+    
+    ```bash
+    docker compose run web rails c
+    docker compose run web rails g model|controller|migration ...
+    docker compose run web rails db:migrate
+    docker compose run web rails t
+    docker compose run web bundle exec rspec
+    docker compose run web bundle add|install|update|remove [gem]
+    ```
+    
+    The above `docker compose run web rails` should be saved into an alias such as:
+    
+    ```bash
+    alias dcr="docker compose run web rails"
+    alias dcb="docker compuse bundle"
+    alias dcbr="docker compose bundle exec rspec"
+    ```
+    
+    View `rails s` logs:
+    
+    ```bash
+    docker logs -f web
+    ```
+    
 
 ## Best Practices
 
@@ -193,7 +185,7 @@ The [rbytes](https://github.com/palkan/rbytes) command will install an interacti
 
 [Dip](https://github.com/bibendi/dip) Dip (Docker Interaction Program) is a tool to simplify the previously complicated method of utilizing Docker Compose, making the process smoother. Review the `dip.yml` to see the commands we can run:
 
-```bash
+```yaml
 version: '7.1'
 
 # Define default environment variables to pass
@@ -304,35 +296,52 @@ FileUtils.chdir APP_ROOT do
 end
 ```
 
-We can run rails-specific commands defined in the `dip.yml` just like we did previously but prefixed with `dip`. Included are commands to target other services as well:
+We can run rails-specific commands defined in the `dip.yml` just like we did previously but prefixed with `dip`, but a more extensive list of available commands are written in the `.dockerdev/README.md` file:
 
-```bash
-# snippet from dip.yml file
-bundle:
-  description: Run Bundler commands
-  service: rails
-  command: bundle
-  compose_run_options: [ no-deps ]
+```markdown
+# snippet from .dockerdev/README.md # 
+# run rails server
+dip rails s
 
-rails:
-  description: Run Rails commands
-  service: rails
-  command: bundle exec rails
-  subcommands:
-    s:
-      description: Run Rails server at http://localhost:3000
-      service: web
-      compose:
-        run_options: [ service-ports, use-aliases ]
-    test:
-      description: Run unit tests
-      service: rails
-      command: bundle exec rails test
-      environment:
-        RAILS_ENV: test
+# run rails console
+dip rails c
+
+# run rails server with debugging capabilities (i.e., `debugger` would work)
+dip rails s
+
+# or run the while web app (with all the dependencies)
+dip up web
+
+# run migrations
+dip rails db:migrate
+
+# pass env variables into application
+dip VERSION=20100905201547 rails db:migrate:down
+
+# simply launch bash within app directory (with dependencies up)
+dip runner
+
+# execute an arbitrary command via Bash
+dip bash -c 'ls -al tmp/cache'
+
+# Additional commands
+
+# update gems or packages
+dip bundle install
+dip yarn install
+
+# run psql console
+dip psql
+
+# run tests
+# TIP: `dip rails test` is already auto prefixed with `RAILS_ENV=test`
+dip rails test
+
+# shutdown all containers
+dip down
 ```
 
-From the snippet above we can run the same rails-centric commands prefixed with `dip`, however, there is an option in the `.dockerdev/README.md` (plus available commands without referencing the `dip.yml` file) that makes the prefix unnecessary.
+From the snippet above we can run the same rails-centric commands prefixed with `dip`, however, there is also an option that makes the prefix unnecessary depending on your shell.
 
 ## Final Thoughts
 
