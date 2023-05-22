@@ -1,7 +1,7 @@
 ---
 title: "Present Spotify Data in Tmux with Applescript"
 seoTitle: "Display Spotify Data using Tmux, Applescript"
-seoDescription: "Control Spotify via AppleScript in tmux: Show song info on macOS tmux status bar, customize workflow"
+seoDescription: "Control Spotify in Tmux with AppleScript: Show song info, customize workflow, and improve macOS integration"
 datePublished: Sun May 21 2023 20:35:28 GMT+0000 (Coordinated Universal Time)
 cuid: clhxvo8tv00030amhb7lh49d5
 slug: present-spotify-data-in-tmux-with-applescript
@@ -12,7 +12,7 @@ tags: spotify, scripting, tmux, scripting-languages, applescript
 
 <mark>TLDR: This article demonstrates how to use AppleScript to control Spotify and display song information in a tmux status bar.</mark>
 
-> tmux is a terminal multiplexer: it enables several terminals to be created, accessed, and controlled from a single screen. tmux may be detached from a screen and continue running in the background, then later reattached.
+> Tmux is a terminal multiplexer: it enables several terminals to be created, accessed, and controlled from a single screen. Tmux may be detached from a screen and continue running in the background, then later reattached.
 > 
 > source: [https://github.com/tmux/tmux](https://github.com/tmux/tmux)
 
@@ -22,9 +22,9 @@ tags: spotify, scripting, tmux, scripting-languages, applescript
 
 ## INTRO
 
-I have been using tmux in my workflow with [https://github.com/gpakosz/.tmux](https://github.com/gpakosz/.tmux) configuration. I've done further research into how to personalize it. Unfortunately, most plugins are written in a shell script, which is understandable as shells like **bash** are available (or built-in) in most distros or OSs. I do want to learn how to write shell scripts, not just for tmux, but as well as the universality of it.
+I have been using Tmux in my workflow with the [https://github.com/gpakosz/.tmux](https://github.com/gpakosz/.tmux) configuration. I've done further research into how to personalize it. Unfortunately, most plugins are written in a shell script, which is understandable as shells like **bash** are available (or built-in) in most distros or OSs. I do want to learn how to write shell scripts, not just for Tmux, but as well as the universality of it.
 
-### ***<mark>NOTE: AppleScripts will only work on a macOS ecosystem.</mark>***
+***<mark>NOTE: AppleScripts will only work on a macOS ecosystem.</mark>***
 
 Let's create a script that's **human-readable** using AppleScript to get a feel for the language and then expand on it by utilizing a shell script afterwards.
 
@@ -51,34 +51,34 @@ As for most script files, the heading should be the environment that the file sh
 2. Now, we want to obtain and store the current track and artist's name and the player state (playing or paused) in variables, specifically, track\_name, artist\_name, and player\_state, respectively. We could also retrieve other information, such as the album\_name,
     
     ```diff
-    - tell application "Spotify"
-    -  if it is running then
-    +   set track_name to name of current track
-    +   set artist_name to artist of current track
-    +   set player_state to player state as string
-    -  else
-    -    "♫ 💤" 
-    -  end if
-    - end
+    tell application "Spotify"
+        if it is running then
+    +       set track_name to name of current track
+    +       set artist_name to artist of current track
+    +       set player_state to player state as string
+        else
+            "♫ 💤" 
+        end if
+    end
     ```
     
-3. We now want to display the info we gathered from above. We can use an if/else statement to branch between what we display based on player state
+3. We now want to display the info we gathered from above. We can use an if/else statement to branch between what we display based on the player state.
     
     ```diff
-    - tell application "Spotify"
-    -  if it is running then
-    -   set track_name to name of current track
-    -   set artist_name to artist of current track
-    -   set player_state to player state as string
-    +    if player_state is equal "playing"
-    +      "♫ ⏵ " & track_name & " + " & artist_name
-    +    else
-    +     "♫ ⏸ " & track_name & " + " & artist_name
-    +    end if
-    -  else
-    -    "♫ 💤" 
-    -  end if
-    - end
+    tell application "Spotify"
+        if it is running then
+            set track_name to name of current track
+            set artist_name to artist of current track
+            set player_state to player state as string
+    +       if player_state is equal "playing"
+    +           "♫ ⏵ " & track_name & " + " & artist_name
+    +       else
+    +           "♫ ⏸ " & track_name & " + " & artist_name
+    +       end if
+        else
+            "♫ 💤" 
+        end if
+    end
     ```
     
 4. And that's it. However, we can slightly refactor the code and introduce functions. Finally, let's include the maintainer's information (optional, but helpful for directing complaints when the script doesn't work as intended) and a description of the script's function for users.
@@ -115,7 +115,7 @@ As for most script files, the heading should be the environment that the file sh
     
     > chmod +x ~/scripts/spotify.scpt
     
-6. The final step is to integrate it into our tmux status line. I opted for the right-hand side. Inside a tmux session, enter your command prompt using `Prefix + :` and type the following based on the path the script file
+6. The final step is to integrate it into our Tmux status line. I opted for the right-hand side. Inside a Tmux session, enter your command prompt using `Prefix + :` and type the following based on the path the script file
     
     > set -g status-right '#(~/scripts/spotify.scpt)'
     
@@ -160,7 +160,7 @@ if (!spotify.running()) {
 }
 ```
 
-Similar to the first script, save this one as ~/scripts/spotify.js. You can now run it in your tmux command prompt. Since this is a JS file, you need to inform AppleScript about it:
+Similar to the first script, save this one as ~/scripts/spotify.js. You can now run it in your Tmux command prompt. Since this is a JS file, you need to inform AppleScript about it:
 
 ***<mark>-l language | Override the language for any plain text files. Normally, plain text files are compiled as AppleScript.</mark>***
 
@@ -168,7 +168,7 @@ Similar to the first script, save this one as ~/scripts/spotify.js. You can now 
 set -g status-right '#(osascript -l JavaScript ~/scripts/spotify.js)'
 ```
 
-The integration of our scripts into tmux via the command prompt is temporary and gets cleared when the session or server is terminated. To make it permanent, we need to transfer it to our configuration file, typically saved as ~/.tmux.conf, and then source the config file to apply the changes.
+The integration of our scripts into Tmux via the command prompt is temporary and gets cleared when the session or server is terminated. To make it permanent, we need to transfer it to our configuration file, typically saved as ~/.tmux.conf, and then source the config file to apply the changes.
 
 ```bash
 echo "set -g status-right '#(~/scripts/spotify.scpt)'" >> .tmux.conf
@@ -275,4 +275,4 @@ The final feature we will incorporate enables the announcement of the current so
 
 ## Conclusion
 
-This was a simple script to showcase AppleScript and to show how it can integrate with the Apple ecosystem, here focusing on extracting Spotify info to display in a tmux status bar. In the next article, we will expand on it to add additional controls such as next, previous, pause/play, and repeat.
+This was a simple script to showcase AppleScript and to show how it can integrate with the Apple ecosystem, here focusing on extracting Spotify info to display in a Tmux status bar. In the next article, we will expand on it to add additional controls such as next, previous, pause/play, and repeat.
