@@ -1,10 +1,10 @@
 ---
-title: "YouTube Queue Management: Chrome Extension Concept"
+title: "YQM: Chrome Extension Concept"
 seoTitle: "YouTube Queue Manager: Chrome Extension Idea"
 seoDescription: "Optimize YouTube using our Chrome Extension for queue management, video length limits, automated playlists, and improved user experience"
 datePublished: Fri Jun 02 2023 22:05:39 GMT+0000 (Coordinated Universal Time)
 cuid: clif46fph000a09mmdtl36iy9
-slug: youtube-queue-management-chrome-extension-concept
+slug: yqm-chrome-extension-concept
 cover: https://cdn.hashnode.com/res/hashnode/image/stock/unsplash/4QmSdCP4bhM/upload/2f1057c3f7dec5d92b01371d59c8a1ee.jpeg
 tags: chrome-extension, youtube, idea-to-build-project, queue-management, chromeextensions
 
